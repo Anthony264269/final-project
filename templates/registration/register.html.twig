@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<section id="accueil-enregistrement">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1 class="text-white">Inscription</h1>
+{# il faut modifier les form pour changer la couleur et mettre une div pour bouger le bloque!!!!!!!!!!!!!! #}
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        <div class="d-flex pr-2">{{ form_row(registrationForm.email, { 'attr': {'class': 'text-white'} }) }} <i class='bx bxs-user'></i></div>
+        <div class="d-flex" >{{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}<i class='bx bxs-lock-alt'></i></div>
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn texte-white">Register</button>
+    {{ form_end(registrationForm) }}
+    </section>
+{% endblock %}
