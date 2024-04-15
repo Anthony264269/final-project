@@ -33,8 +33,9 @@ class Forum
     #[ORM\ManyToOne(inversedBy: 'forums')]
     private ?ForumCategory $forumCategory = null;
 
-    #[ORM\ManyToOne(inversedBy: 'forum')]
-    private ?Subscriber $subscriber = null;
+    #[ORM\ManyToOne(inversedBy: 'forums')]
+    private ?User $user = null;
+
 
 
 
@@ -125,17 +126,19 @@ class Forum
         return $this;
     }
 
-    public function getSubscriber(): ?Subscriber
+    public function getUser(): ?User
     {
-        return $this->subscriber;
+        return $this->user;
     }
 
-    public function setSubscriber(?Subscriber $subscriber): static
+    public function setUser(?User $user): static
     {
-        $this->subscriber = $subscriber;
+        $this->user = $user;
 
         return $this;
     }
+
+   
 
 
 

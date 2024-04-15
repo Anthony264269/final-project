@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MyGarageRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,12 +28,17 @@ class MyGarage
     #[ORM\OneToMany(targetEntity: Vehicule::class, mappedBy: 'myGarage')]
     private Collection $vehicules;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Subscriber $subscriber = null;
+    #[ORM\OneToOne(inversedBy: 'myGarage', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
+ 
+
+
 
     public function __construct()
     {
         $this->vehicules = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -106,15 +112,16 @@ class MyGarage
         return $this;
     }
 
-    public function getSubscriber(): ?Subscriber
+    public function getUser(): ?User
     {
-        return $this->subscriber;
+        return $this->user;
     }
 
-    public function setSubscriber(?Subscriber $subscriber): static
+    public function setUser(?User $user): static
     {
-        $this->subscriber = $subscriber;
+        $this->user = $user;
 
         return $this;
     }
+
 }

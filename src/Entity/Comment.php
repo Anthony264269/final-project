@@ -26,7 +26,9 @@ class Comment
     private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?Subscriber $subscriber = null;
+    private ?User $user = null;
+
+   
 
     public function getId(): ?int
     {
@@ -81,15 +83,16 @@ class Comment
         return $this;
     }
 
-    public function getSubscriber(): ?Subscriber
+    public function getUser(): ?User
     {
-        return $this->subscriber;
+        return $this->user;
     }
 
-    public function setSubscriber(?Subscriber $subscriber): static
+    public function setUser(?User $user): static
     {
-        $this->subscriber = $subscriber;
+        $this->user = $user;
 
         return $this;
     }
+
 }

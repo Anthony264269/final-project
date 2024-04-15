@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('assets/styles/login.css')}}">
+    {% endblock %}
+{% endblock %}
+
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<section id="accueil-connexion">
+<h1 class="text-white d-flex justify-content-center pb-5">Connexion</h1>
+<div class="input-box d-flex justify-content-center align-items-center">
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -16,11 +23,11 @@
     {% endif %}
     
 
-    <h1 class="text-white d-flex justify-content-center pb-5">Connexion</h1>
-    <div class="input-box">
-    <label for="inputEmail">Email</label>
+    
+    
+    <label for="inputEmail">Email</label><i class='bx bxs-user'></i>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Mot de passe</label>
+    <label for="inputPassword">Mot de passe</label><i class='bx bxs-lock-alt'></i>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
@@ -32,5 +39,5 @@
     </button>
     </div>
 </form>
-</section>
+
 {% endblock %}

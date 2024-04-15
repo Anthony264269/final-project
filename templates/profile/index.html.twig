@@ -1,13 +1,69 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('assets/styles/profile.css')}}">
+    {% endblock %}
+{% endblock %}
+
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
-<section id="accueil-profil">
-<div>
-<h2></h2>
-</div>
-
+<section id="profile">
+    <img src="./assets/photo-profile/ma-photo-de-profil_2.png" alt="" width="10%">
+    <a class="text-white" href="{{path('app_vehicule')}}">Ajout voiture</a>
 </section>
+<section id="card">
+    {% for vehicule in vehicules %}
+    <div class="card">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+  
+            <h5 class="card-title">{{ vehicule.brand }} - {{ vehicule.model }}</h5>
+
+            <h5 class="card-title">{{ vehicule.motorization }}</h5>
+      
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+<script>document.addEventListener('DOMContentLoaded', function() {
+    const ele = document.getElementById('card');
+    let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+    const mouseDownHandler = function(e) {
+        pos = {
+            left: ele.scrollLeft,
+            top: ele.scrollTop,
+            // Obtenez la position actuelle de la souris
+            x: e.clientX,
+            y: e.clientY,
+        };
+
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+        ele.style.cursor = 'grabbing';
+        ele.style.userSelect = 'none';
+    };
+
+    const mouseMoveHandler = function(e) {
+        // Calculer la nouvelle position de la souris
+        const dx = e.clientX - pos.x;
+        ele.scrollLeft = pos.left - dx;
+    };
+
+    const mouseUpHandler = function() {
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
+        ele.style.cursor = 'grab';
+        ele.style.removeProperty('user-select');
+    };
+
+    // Attacher l'événement mousedown
+    ele.addEventListener('mousedown', mouseDownHandler);
+    ele.style.cursor = 'grab';
+});
+</script>
 
 {% endblock %}

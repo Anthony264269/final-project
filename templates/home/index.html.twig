@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('assets/styles/app.css')}}">
+    {% endblock %}
+{% endblock %}
+
 {% block title %}Mon Atelier Garage
 {% endblock %}
 

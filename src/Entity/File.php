@@ -19,8 +19,10 @@ class File
     #[ORM\ManyToOne(inversedBy: 'file')]
     private ?Forum $forum = null;
 
-    #[ORM\ManyToOne(inversedBy: 'file')]
-    private ?Subscriber $subscriber = null;
+ 
+
+    #[ORM\ManyToOne(inversedBy: 'picture')]
+    private ?User $user = null;
 
  
 
@@ -53,14 +55,14 @@ class File
         return $this;
     }
 
-    public function getSubscriber(): ?Subscriber
+    public function getUser(): ?User
     {
-        return $this->subscriber;
+        return $this->user;
     }
 
-    public function setSubscriber(?Subscriber $subscriber): static
+    public function setUser(?User $user): static
     {
-        $this->subscriber = $subscriber;
+        $this->user = $user;
 
         return $this;
     }
