@@ -25,6 +25,8 @@ class Vehicule
     private ?string $motorization = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicules')]
+
+
     private ?MyGarage $myGarage = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicule')]
@@ -35,6 +37,10 @@ class Vehicule
 
     #[ORM\ManyToOne(inversedBy: 'vehicules')]
     private ?User $user = null;
+
+    #[ORM\OneToOne(inversedBy: 'vehicule', cascade: ['persist', 'remove'])]
+    private ?File $imageUrl = null;
+
 
 
     
@@ -156,8 +162,15 @@ class Vehicule
         return $this;
     }
 
+    public function getImageUrl(): ?File
+    {
+        return $this->imageUrl;
+    }
 
+    public function setImageUrl(?File $imageUrl): static
+    {
+        $this->imageUrl = $imageUrl;
 
-
-
+        return $this;
+    }
 }

@@ -24,6 +24,9 @@ class File
     #[ORM\ManyToOne(inversedBy: 'picture')]
     private ?User $user = null;
 
+    #[ORM\OneToOne(mappedBy: 'imageUrl', cascade: ['persist', 'remove'])]
+    private ?Vehicule $vehicule = null;
+
  
 
     public function getId(): ?int
@@ -63,6 +66,28 @@ class File
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getVehicule(): ?Vehicule
+    {
+        return $this->vehicule;
+    }
+
+    public function setVehicule(?Vehicule $vehicule): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($vehicule === null && $this->vehicule !== null) {
+            $this->vehicule->setImageUrl(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($vehicule !== null && $vehicule->getImageUrl() !== $this) {
+            $vehicule->setImageUrl($this);
+        }
+
+        $this->vehicule = $vehicule;
 
         return $this;
     }

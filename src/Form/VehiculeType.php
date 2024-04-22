@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Vehicule;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\FileType; 
 
 class VehiculeType extends AbstractType
 {
@@ -22,7 +24,13 @@ class VehiculeType extends AbstractType
                     new NotBlank(['message' => 'Veuillez saisir un modèle.'])
                 ]
             ])
-            ->add('motorization');
+            ->add('motorization')
+            
+            ->add('photo', FileType::class, [ // Ajoutez ce champ pour le téléchargement de photos
+                'label' => 'Photo du véhicule',
+                'mapped' => false, // Ne pas associer directement à l'attribut de l'entité
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
