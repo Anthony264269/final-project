@@ -10,14 +10,21 @@
 
 {% block body %}
 <section id="profile">
-    <img src="./assets/photo-profile/ma-photo-de-profil_2.png" alt="" width="10%">
-    <a class="text-white" href="{{path('app_vehicule')}}">Ajout voiture</a>
+{% if app.user.getFile() %}
+
+
+    <img src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="">
+    {% else %}
+    <img class="card-img-top" src="{{ asset('path/to/default/image.jpg') }}" alt="Image par défaut">
+    {% endif %}
+    <a class="text-white" href="{{ path('app_vehicule') }}">Ajout véhicule</a>
+    <a href="{{ path('app_profile_edit') }}">Modifier profil</a>
 </section>
 <section id="card">
    {% for vehicule in vehicules %}
 <div class="card">
     {% if vehicule.imageUrl and vehicule.imageUrl.url %}
-    <img class="card-img-top" src="{{ asset(vehicule.imageUrl.url) }}" alt="Image de {{ vehicule.brand }} {{ vehicule.model }}">
+    <img class="card-img-top" src="{{ asset('uploads/vehicules/' ~ vehicule.imageUrl.url) }}" alt="Image de {{ vehicule.brand }} {{ vehicule.model }}">
     {% else %}
     <img class="card-img-top" src="{{ asset('path/to/default/image.jpg') }}" alt="Image par défaut">
     {% endif %}

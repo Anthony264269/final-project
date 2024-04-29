@@ -15,7 +15,7 @@ class Forum
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $sujet = null;
 
     #[ORM\Column(length: 255)]

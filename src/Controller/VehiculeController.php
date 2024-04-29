@@ -58,6 +58,7 @@ class VehiculeController extends AbstractController
 
             // Associez le garage existant ou le nouveau garage au véhicule
             $vehicule->setMyGarage($existingGarage);
+            $vehicule->setImageUrl($file);
             $entityManager->persist($vehicule);
             $entityManager->flush();
 

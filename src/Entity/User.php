@@ -59,9 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable:true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
-    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'user')]
-    private Collection $picture;
-
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?MyGarage $myGarage = null;
 
@@ -74,9 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vehicule::class, mappedBy: 'user')]
     private Collection $vehicules;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?File $file = null;
+
+
     public function __construct()
     {
-        $this->picture = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->forums = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
@@ -243,36 +243,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, File>
-     */
-    public function getPicture(): Collection
-    {
-        return $this->picture;
-    }
-
-    public function addPicture(File $picture): static
-    {
-        if (!$this->picture->contains($picture)) {
-            $this->picture->add($picture);
-            $picture->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePicture(File $picture): static
-    {
-        if ($this->picture->removeElement($picture)) {
-            // set the owning side to null (unless already changed)
-            if ($picture->getUser() === $this) {
-                $picture->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getMyGarage(): ?MyGarage
     {
         return $this->myGarage;
@@ -382,6 +352,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $vehicule->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($file === null && $this->file !== null) {
+            $this->file->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($file !== null && $file->getUser() !== $this) {
+            $file->setUser($this);
+        }
+
+        $this->file = $file;
 
         return $this;
     }

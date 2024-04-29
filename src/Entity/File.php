@@ -19,15 +19,13 @@ class File
     #[ORM\ManyToOne(inversedBy: 'file')]
     private ?Forum $forum = null;
 
- 
-
-    #[ORM\ManyToOne(inversedBy: 'picture')]
-    private ?User $user = null;
 
     #[ORM\OneToOne(mappedBy: 'imageUrl', cascade: ['persist', 'remove'])]
     private ?Vehicule $vehicule = null;
 
- 
+    #[ORM\ManyToOne(inversedBy: 'file', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
 
     public function getId(): ?int
     {
@@ -58,18 +56,6 @@ class File
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getVehicule(): ?Vehicule
     {
         return $this->vehicule;
@@ -91,6 +77,22 @@ class File
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+
+
 
 
 }

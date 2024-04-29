@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/styles/register.css') }}">
+    {% endblock %}
+{% endblock %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block body %}
+    <h1 class="text-white text-center pb-5">Modifier mon profil</h1>
+    <div class="input-box">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        {{ form_errors(profileForm) }}
+
+        {{ form_start(profileForm, {'attr': {'class': 'form-horizontal'}, 'enctype': 'multipart/form-data'}) }}
+            <div class="form-group">
+                {{ form_row(profileForm.pseudo, { 'attr': {'class': 'form-control text-dark'} }) }}
+            </div>
+          
+            <div class="form-group">
+                {{ form_row(profileForm.plainPassword, { 'attr': {'class': 'form-control'}, 'label': 'Mot de passe' }) }}
+            </div>
+            
+            <div class="form-group">
+                {{ form_row(profileForm.photo, { 'attr': {'class': 'form-control-file'}, 'label': 'Photo de profil' }) }}
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Enregistrer</button>
+            </div>
+        {{ form_end(profileForm) }}
+    </div>
+{% endblock %}
