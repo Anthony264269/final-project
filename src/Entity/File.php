@@ -16,15 +16,15 @@ class File
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
 
-    #[ORM\ManyToOne(inversedBy: 'file')]
-    private ?Forum $forum = null;
-
 
     #[ORM\OneToOne(mappedBy: 'imageUrl', cascade: ['persist', 'remove'])]
     private ?Vehicule $vehicule = null;
 
-    #[ORM\ManyToOne(inversedBy: 'file', cascade: ['persist', 'remove'])]
-    private ?User $user = null;
+    #[ORM\ManyToOne(inversedBy: 'file')]
+    private ?Forum $forum = null;
+
+
+
 
 
     public function getId(): ?int
@@ -40,18 +40,6 @@ class File
     public function setUrl(?string $url): static
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getForum(): ?Forum
-    {
-        return $this->forum;
-    }
-
-    public function setForum(?Forum $forum): static
-    {
-        $this->forum = $forum;
 
         return $this;
     }
@@ -78,20 +66,17 @@ class File
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getForum(): ?Forum
     {
-        return $this->user;
+        return $this->forum;
     }
 
-    public function setUser(?User $user): static
+    public function setForum(?Forum $forum): static
     {
-        $this->user = $user;
+        $this->forum = $forum;
 
         return $this;
     }
-
-
-
 
 
 

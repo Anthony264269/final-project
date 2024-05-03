@@ -36,17 +36,20 @@ class Forum
     #[ORM\ManyToOne(inversedBy: 'forums')]
     private ?User $user = null;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'forum')]
+    private Collection $comment;
 
-
-
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'forum')]
+    private Collection $file;
 
 
  
 
     public function __construct()
     {
-      
-   
+        $this->comment = new ArrayCollection();
+        $this->file = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -138,10 +141,66 @@ class Forum
         return $this;
     }
 
-   
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setForum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getForum() === $this) {
+                $comment->setForum(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFile(): Collection
+    {
+        return $this->file;
+    }
+
+    public function addFile(File $file): static
+    {
+        if (!$this->file->contains($file)) {
+            $this->file->add($file);
+            $file->setForum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): static
+    {
+        if ($this->file->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getForum() === $this) {
+                $file->setForum(null);
+            }
+        }
+
+        return $this;
+    }
 
 
-
-  
 
 }

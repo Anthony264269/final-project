@@ -9,7 +9,6 @@ use App\Entity\Forum;
 use App\Entity\ForumCategory;
 use App\Entity\Maintenance;
 use App\Entity\MyGarage;
-use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Entity\Vehicule;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -51,14 +50,13 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
      
-        yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class);
+        // yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Comment', 'fa-solid fa-comments', Comment::class);
         yield MenuItem::linkToCrud('File', 'fa-solid fa-file', File::class);
         yield MenuItem::linkToCrud('Forum', 'fa-solid fa-user-group', Forum::class);
         yield MenuItem::linkToCrud('ForumCategory', 'fas fa-list', ForumCategory::class);
         yield MenuItem::linkToCrud('Maintenance', 'fa-solid fa-screwdriver-wrench', Maintenance::class);
         yield MenuItem::linkToCrud('MyGarage', 'fa-solid fa-warehouse', MyGarage::class);
-        yield MenuItem::linkToCrud('Subscriber', 'fa-solid fa-circle-user', Subscriber::class);
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Vehicule', 'fa-solid fa-car', Vehicule::class);
 

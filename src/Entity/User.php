@@ -71,9 +71,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vehicule::class, mappedBy: 'user')]
     private Collection $vehicules;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?File $file = null;
-
 
     public function __construct()
     {
@@ -363,18 +362,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setFile(?File $file): static
     {
-        // unset the owning side of the relation if necessary
-        if ($file === null && $this->file !== null) {
-            $this->file->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($file !== null && $file->getUser() !== $this) {
-            $file->setUser($this);
-        }
-
         $this->file = $file;
 
         return $this;
     }
+
+
+
+
 }

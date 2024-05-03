@@ -1,7 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Garage{% endblock %}
+{% block head %}
+	{% block stylesheets %}
+		<link rel="stylesheet" href="{{ asset('assets/styles/myGarage.css') }}">
+	{% endblock %}
+{% endblock %}
+
+{% block title %}Mon Garage
+{% endblock %}
 
 {% block body %}
+	<section id="myCar">
+		<div class="card-entretien">
+			<div class="card-img">
+				<img class="card-img-top" src="{{ vehicule.imageUrl ? asset('uploads/vehicules/' ~ vehicule.imageUrl.url) : asset('path/to/default/image.jpg') }}" alt="Image de {{ vehicule.brand }} {{ vehicule.model }}">
+			</div>
+			<div class="card-body">
+				<p class="card-title fs-2 mb-5">
+					<img class="text-white custom-img" src="{{ asset('images/logo/logo-vehicule.png') }}">
+					{{ vehicule.brand }}-{{ vehicule.model }}
+				</p>
+				<p class="card-title fs-4 mb-3">
+					<img class="custom-img" src="{{ asset('images/logo/logo-motorisation.png') }}">
+					{{ vehicule.motorization }}
+				</p>
+				<p class="card-title fs-4">
+					<img class="custom-img" src="{{ asset('images/logo/logo-maintenance.png') }}">Maintenance
+				</p>
+			</div>
+		</div>
+	</section>
+	<section id="entretien">
+		<h2>Entretien</h2>
+		<div class="mes-entretiens">
 
-{% endblock %}
+			<button class="custom-button-maintenance " type="button" onclick="openPopup()">Ajouter Maintenance</button>
+
+
+			<div id="popup" class="popup">
+				<div class="popup-content">
+					<span class="close" onclick="closePopup()">&times;</span>
+					<form action="{{ path('add_maintenance', {'vehicleId': vehicule.id}) }}" method="post">
+						<textarea class="texte-pop" name="description" placeholder="Entrez votre commentaire ici"></textarea>
+						<button type="submit">Envoyer</button>
+					</form>
+				</div>
+			</div>
+
+			{% for maintenance in vehicule.getMaintenance %}
+				<div class="d-flex align-items-center gap-2">
+					<p class="mb-3 mr-1">{{ maintenance.createdAt|date('d-m-Y') }}:
+						{{ maintenance.maintenance }}
+					</p>
+					<form action="{{ path('delete_maintenance', {'id': vehicule.id}) }}" method="post">
+						<button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
+					</form>
+				</div>
+
+			{% endfor %}
+		</div>
+        <div class="next-vehicule d-flex justify-content-center gap-5">
+		<a href="{{ path('app_my_garage', {'id': prevId}) }}" class="btn btn-primary">Précédent</a>
+		<a href="{{ path('app_my_garage', {'id': nextId}) }}" class="btn btn-primary">Suivant</a>
+        </div>
+	</section>
+</section>
+{% block javascripts %}
+	<script src="{{asset('assets/js/pop-up.js')}}"></script>
+{% endblock %}{% endblock %}

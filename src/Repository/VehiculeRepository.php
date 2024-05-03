@@ -21,6 +21,17 @@ class VehiculeRepository extends ServiceEntityRepository
         parent::__construct($registry, Vehicule::class);
     }
 
+    public function getVehicleIdsByGarage(int $garageId): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT v.id FROM App\Entity\Vehicule v WHERE v.myGarage = :garageId ORDER BY v.id ASC'
+        )->setParameter('garageId', $garageId);
+    
+        return array_column($query->getScalarResult(), 'id');
+    }
+
+
     //    /**
     //     * @return Vehicule[] Returns an array of Vehicule objects
     //     */

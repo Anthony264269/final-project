@@ -25,6 +25,9 @@ class Maintenance
     #[ORM\ManyToOne(inversedBy: 'maintenance')]
     private ?Vehicule $vehicule = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $maintenance = null;
+
 
 
   
@@ -82,6 +85,18 @@ class Maintenance
     public function setVehicule(?Vehicule $vehicule): static
     {
         $this->vehicule = $vehicule;
+
+        return $this;
+    }
+
+    public function getMaintenance(): ?string
+    {
+        return $this->maintenance;
+    }
+
+    public function setMaintenance(?string $maintenance): static
+    {
+        $this->maintenance = $maintenance;
 
         return $this;
     }

@@ -25,14 +25,12 @@ class Vehicule
     private ?string $motorization = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicules')]
-
-
     private ?MyGarage $myGarage = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicule')]
     private ?Category $category = null;
 
-    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'vehicule')]
+    #[ORM\OneToMany(targetEntity: Maintenance::class, mappedBy: 'vehicule', cascade: ['persist', 'remove'])]
     private Collection $maintenance;
 
     #[ORM\ManyToOne(inversedBy: 'vehicules')]
