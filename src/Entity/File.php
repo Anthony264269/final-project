@@ -23,6 +23,9 @@ class File
     #[ORM\ManyToOne(inversedBy: 'file')]
     private ?Forum $forum = null;
 
+    #[ORM\OneToOne(mappedBy: 'file', cascade: ['persist', 'remove'])]
+    private ?Comment $comment = null;
+
 
 
 
@@ -74,6 +77,28 @@ class File
     public function setForum(?Forum $forum): static
     {
         $this->forum = $forum;
+
+        return $this;
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?Comment $comment): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($comment === null && $this->comment !== null) {
+            $this->comment->setFile(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($comment !== null && $comment->getFile() !== $this) {
+            $comment->setFile($this);
+        }
+
+        $this->comment = $comment;
 
         return $this;
     }

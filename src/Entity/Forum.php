@@ -36,20 +36,16 @@ class Forum
     #[ORM\ManyToOne(inversedBy: 'forums')]
     private ?User $user = null;
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'forum')]
-    private Collection $comment;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'forum', cascade: ['persist', 'remove'])]
+    private Collection $comments;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'forum')]
     private Collection $file;
 
-
- 
-
     public function __construct()
     {
-        $this->comment = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->file = new ArrayCollection();
-
     }
 
     public function getId(): ?int
@@ -62,10 +58,9 @@ class Forum
         return $this->sujet;
     }
 
-    public function setSujet(string $sujet): static
+    public function setSujet(string $sujet): self
     {
         $this->sujet = $sujet;
-
         return $this;
     }
 
@@ -74,10 +69,9 @@ class Forum
         return $this->message;
     }
 
-    public function setMessage(string $message): static
+    public function setMessage(string $message): self
     {
         $this->message = $message;
-
         return $this;
     }
 
@@ -86,10 +80,9 @@ class Forum
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -98,10 +91,9 @@ class Forum
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
@@ -110,10 +102,9 @@ class Forum
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(\DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
-
         return $this;
     }
 
@@ -122,10 +113,9 @@ class Forum
         return $this->forumCategory;
     }
 
-    public function setForumCategory(?ForumCategory $forumCategory): static
+    public function setForumCategory(?ForumCategory $forumCategory): self
     {
         $this->forumCategory = $forumCategory;
-
         return $this;
     }
 
@@ -134,62 +124,52 @@ class Forum
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComment(): Collection
+    public function getComments(): Collection
     {
-        return $this->comment;
+        return $this->comments;
     }
 
-    public function addComment(Comment $comment): static
+    public function addComment(Comment $comment): self
     {
-        if (!$this->comment->contains($comment)) {
-            $this->comment->add($comment);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
             $comment->setForum($this);
         }
-
         return $this;
     }
 
-    public function removeComment(Comment $comment): static
+    public function removeComment(Comment $comment): self
     {
-        if ($this->comment->removeElement($comment)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
             if ($comment->getForum() === $this) {
                 $comment->setForum(null);
             }
         }
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, File>
-     */
     public function getFile(): Collection
     {
         return $this->file;
     }
 
-    public function addFile(File $file): static
+    public function addFile(File $file): self
     {
         if (!$this->file->contains($file)) {
             $this->file->add($file);
             $file->setForum($this);
         }
-
         return $this;
     }
 
-    public function removeFile(File $file): static
+    public function removeFile(File $file): self
     {
         if ($this->file->removeElement($file)) {
             // set the owning side to null (unless already changed)
@@ -197,10 +177,6 @@ class Forum
                 $file->setForum(null);
             }
         }
-
         return $this;
     }
-
-
-
 }

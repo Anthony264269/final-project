@@ -3,3 +3,10 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+    # Exemple de configuration de la route pour l'ajout de commentaire
+app_forum_add_comment:
+    path: '/forum/{id}/comment'
+    controller: App\Controller\ForumController::addComment
+    methods: ['POST']
+

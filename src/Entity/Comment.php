@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
@@ -27,20 +25,15 @@ class Comment
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comment')]
+    #[ORM\ManyToOne(targetEntity: Forum::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Forum $forum = null;
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'forum')]
-    private Collection $comment;
-
-    public function __construct()
-    {
-        $this->comment = new ArrayCollection();
-    }
+    #[ORM\OneToOne(inversedBy: 'comment', cascade: ['persist', 'remove'])]
+    private ?File $file = null;
 
     public function getId(): ?int
     {
@@ -52,10 +45,9 @@ class Comment
         return $this->message;
     }
 
-    public function setMessage(string $message): static
+    public function setMessage(string $message): self
     {
         $this->message = $message;
-
         return $this;
     }
 
@@ -64,10 +56,9 @@ class Comment
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -76,10 +67,9 @@ class Comment
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
@@ -88,10 +78,9 @@ class Comment
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
-
         return $this;
     }
 
@@ -100,10 +89,9 @@ class Comment
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -112,11 +100,21 @@ class Comment
         return $this->forum;
     }
 
-    public function setForum(?Forum $forum): static
+    public function setForum(?Forum $forum): self
     {
         $this->forum = $forum;
-
         return $this;
     }
 
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file): static
+    {
+        $this->file = $file;
+
+        return $this;
+    }
 }

@@ -40,7 +40,7 @@ class VehiculeController extends AbstractController
                     );
                     $file = new File();
                     $file->setUrl($newFilename);
-                    $file->setUser($user); // Associez le fichier à l'utilisateur connecté
+                
     
                     $entityManager->persist($file);
                 } catch (FileException $e) {

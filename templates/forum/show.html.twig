@@ -6,51 +6,54 @@
     {% endblock %}
 {% endblock %}
 
-{% block title %}Forum{% endblock %}
-
 {% block body %}
-    <h1>Forum</h1>
+<div class="container d-flex flex-column justify-content-center">
+    <h3>{{ forum.sujet }}</h>
+    <p>{{ forum.message }}</p>
+    <p>{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+    {# Liste des commentaires existants #}
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        {% if forum.file %}
+            {% for oneFile in forum.file %}
+                <img class="photo-forum-accueil" src="{{ asset('uploads/forums/' ~ oneFile.url) }}" alt="photo"/>
+            {% endfor %}
+        {% endif %}
+        <h2>Commentaires</h2>
+        {% if forum.comments|default %}
+            {% for comment in forum.comments %}
+                <div>
+                    {% if comment.user is not null %}
+                        <strong>{{ comment.user.pseudo }}</strong>
+                    {% else %}
+                        <strong>Utilisateur inconnu</strong>
+                    {% endif %}
+                    <p>{{ comment.message }}</p>
+                    {% if comment.file %}
+                            <img class="photo-forum" src="{{ asset('uploads/forums/' ~ comment.file.url) }}" alt="photo"/>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucun commentaire pour le moment.</p>
+        {% endif %}
+    </div>
 
+    {# Formulaire pour ajouter un commentaire #}
+    <h3>Ajouter un commentaire</h3>
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.message, 'Votre commentaire :') }}
+        {{ form_widget(form.message, {'attr': {'class': 'form-control', 'required': true}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.file, 'Ajouter une photo :') }}
+        {{ form_widget(form.file, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Poster le commentaire</button>
+    </div>
+    {{ form_end(form) }}
 
-
-    {% if forum.file %}
-        {% for oneFile in forum.file %}
-            <img src="{{ asset('uploads/forums/' ~ oneFile.url) }}" alt="photo" />
-        {% endfor %}
-    {% endif %}
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ forum.id }}</td>
-            </tr>
-            <tr>
-                <th>Sujet</th>
-                <td>{{ forum.sujet }}</td>
-            </tr>
-            <tr>
-                <th>Message</th>
-                <td>{{ forum.message }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ forum.updatedAt ? forum.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DeletedAt</th>
-                <td>{{ forum.deletedAt ? forum.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_forum') }}">back to list</a>
-
-    <a href="{{ path('app_forum_edit', {'id': forum.id}) }}">edit</a>
-
-    {{ include('forum/_delete_form.html.twig') }}
+    <a href="{{ path('app_forum') }}">Retour aux forums</a>
+</div>
 {% endblock %}
