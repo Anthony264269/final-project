@@ -24,10 +24,10 @@ class Forum
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'forums')]
@@ -46,6 +46,7 @@ class Forum
     {
         $this->comments = new ArrayCollection();
         $this->file = new ArrayCollection();
+
     }
 
     public function getId(): ?int

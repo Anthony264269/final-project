@@ -16,10 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/forum')]
+
 class ForumController extends AbstractController
 {
-    #[Route('/', name: 'app_forum', methods: ['GET'])]
+    #[Route('/forum', name: 'app_forum', methods: ['GET'])]
     public function index(ForumRepository $forumRepository): Response
     {
         return $this->render('forum/index.html.twig', [
@@ -27,101 +27,61 @@ class ForumController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_forum_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
-        $forum = new Forum();
-        $form = $this->createForm(ForumType::class, $forum);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newFile = $form->get('file')->getData();
-
-            if ($newFile) {
-                $originalFilename = pathinfo($newFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $newFile->guessExtension();
-
-                try {
-                    $newFile->move(
-                        $this->getParameter('forum_directory'), // Assurez-vous que ce paramètre est bien défini dans config/services.yaml
-                        $newFilename
-                    );
-
-                    // Associez le fichier à l'utilisateur
-                    $photoFile = new File();
-                    $photoFile->setUrl($newFilename);
-                    $photoFile->setForum($forum);
-                    $entityManager->persist($photoFile);
-                    $forum->addFile($photoFile);
-                } catch (FileException $e) {
-                    // Gérer l'erreur, par exemple, avec un message flash
-                    $this->addFlash('error', 'Une erreur s\'est produite lors du téléchargement du fichier.');
-                }
-            }
-            $forum->setCreatedAt(new \DateTimeImmutable());
-            $forum->setUpdatedAt(new \DateTimeImmutable());
-            $forum->setUser($user);
-            $entityManager->persist($forum);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_forum', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('forum/new.html.twig', [
-            'forum' => $forum,
-            'form' => $form,
-        ]);
+#[Route('/new', name: 'app_forum_new', methods: ['GET', 'POST'])]
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    
+    $user = $this->getUser(); // Assurez-vous que l'utilisateur est bien authentifié
+    if (!$user) {
+        $this->addFlash('error', 'Vous devez être connecté pour créer un forum.');
+        return $this->redirectToRoute('app_login'); // Rediriger vers la page de connexion si non connecté
     }
 
-    #[Route('/{id}', name: 'app_forum_show', methods: ['GET'])]
+    $forum = new Forum();
+    $form = $this->createForm(ForumType::class, $forum);
+    $form->handleRequest($request);
 
+    if ($form->isSubmitted() && $form->isValid()) {
+        $newFile = $form->get('file')->getData(); // Assurez-vous que l'attribut 'file' est correctement configuré dans votre ForumType
 
-    public function show(Forum $forum, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        // Récupérez l'utilisateur correspondant à l'ID user_id du forum
-        $user = $forum->getUser();
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-    
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newFile = $form->get('file')->getData();
-            if ($newFile) {
-                $originalFilename = pathinfo($newFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $newFile->guessExtension();
-                try {
-                    $newFile->move(
-                        $this->getParameter('forum_directory'), // Assurez-vous que ce paramètre est bien défini dans config/services.yaml
-                        $newFilename
-                    );
-                    // Associez le fichier à l'utilisateur
-                    $photoFile = new File();
-                    $photoFile->setUrl($newFilename);
-                    $photoFile->setComment($comment);
-                    $entityManager->persist($photoFile);
-                    $comment->setFile($photoFile);
-                } catch (FileException $e) {
-                    // Gérer l'erreur, par exemple, avec un message flash
-                    $this->addFlash('error', 'Une erreur s\'est produite lors du téléchargement du fichier.');
-                }
+        if ($newFile) {
+            $originalFilename = pathinfo($newFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $newFile->guessExtension();
+
+            try {
+                $newFile->move(
+                    $this->getParameter('forum_directory'), // Vérifiez que ce paramètre est correctement défini dans config/services.yaml
+                    $newFilename
+                );
+
+                $photoFile = new File();
+                $photoFile->setUrl($newFilename);
+                $photoFile->setForum($forum);
+                $entityManager->persist($photoFile);
+                $forum->addFile($photoFile);
+            } catch (FileException $e) {
+                $this->addFlash('error', 'Une erreur s\'est produite lors du téléchargement du fichier.');
+                return $this->redirectToRoute('app_forum_new'); // Redirigez l'utilisateur pour qu'il réessaie
             }
-            $comment->setForum($forum);
-            $comment->setUser($this->getUser());
-            $entityManager->persist($comment);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_forum_show', ['id' => $forum->getId()]);
         }
-    
-        return $this->render('forum/show.html.twig', [
-            'forum' => $forum,
-            'user' => $user,
-            'form' => $form->createView(), // Passer le formulaire à Twig
-        ]);
+
+        $forum->setCreatedAt(new \DateTimeImmutable());
+        $forum->setUpdatedAt(new \DateTimeImmutable());
+        $forum->setUser($user);
+        $entityManager->persist($forum);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le forum a été créé avec succès.');
+        return $this->redirectToRoute('app_forum', [], Response::HTTP_SEE_OTHER);
     }
-    
+
+    return $this->render('forum/new.html.twig', [
+        'forum' => $forum,
+        'form' => $form->createView(),
+    ]);
+}
+
 
 
 
@@ -143,11 +103,14 @@ class ForumController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}', name: 'app_forum_delete', methods: ['POST'])]
     public function delete(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
     {
         // Vérifiez si le jeton CSRF est valide
-        if ($this->isCsrfTokenValid('delete' . $forum->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $forum->getId(), $request->request->get('_token'))) {
+
 
             // Récupérez les fichiers associés au forum
             $files = $forum->getFile();

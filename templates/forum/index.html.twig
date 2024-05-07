@@ -27,11 +27,19 @@
                 <td>
                     <a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-link">show</a>
                     <a href="{{ path('app_forum_edit', {'id': forum.id}) }}" class="btn-link">edit</a>
+                    
+                    <!-- Delete Button Form -->
+                    <form action="{{ path('app_forum_delete', {'id': forum.id}) }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
+                        <button type="submit" name="submit" class="btn-link">delete</button>
+
+                    </form>
+                    
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_forum_new') }}" class="btn-link">Create new</a>
+    <a href="{{ path('app_forum_new') }}" class="btn-link">Créer un nouveau forum</a>
 </div>
 {% endblock %}
