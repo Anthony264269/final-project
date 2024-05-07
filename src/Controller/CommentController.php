@@ -14,9 +14,11 @@ use App\Entity\File;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+#[Route('/forum')] // Toutes les routes de ce contrôleur commenceront par /forum    
+
 class CommentController extends AbstractController
 {
-    #[Route('/forum/{id}', name: 'app_forum_show', methods: ['GET', 'POST'])]
+    #[Route('/show/{id}', name: 'app_forum_show', methods: ['GET', 'POST'])]
     public function show(Forum $forum, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         // Récupérez l'utilisateur correspondant à l'ID user_id du forum

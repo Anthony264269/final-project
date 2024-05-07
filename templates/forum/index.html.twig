@@ -1,45 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block head %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/styles/forum-index.css') }}">
-    {% endblock %}
+	{% block stylesheets %}
+		<link rel="stylesheet" href="{{ asset('assets/styles/forum-index.css') }}">
+	{% endblock %}
 {% endblock %}
 
-{% block title %}Forum Index{% endblock %}
+{% block title %}Forum Index
+{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1>Forum Index</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>CreatedAt</th>
-                <th>Sujet</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for forum in forums %}
-            <tr>
-                <td>{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ forum.sujet }}</td>
-                <td>
-                    <a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-link">show</a>
-                    <a href="{{ path('app_forum_edit', {'id': forum.id}) }}" class="btn-link">edit</a>
-                    
-                    <!-- Delete Button Form -->
-                    <form action="{{ path('app_forum_delete', {'id': forum.id}) }}" method="post">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
-                        <button type="submit" name="submit" class="btn-link">delete</button>
+	<div class="container">
+		<h3 class="fs-1">Forum Index</h3>
+		<div class="row">
+			{% for forum in forums %}
 
-                    </form>
-                    
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('app_forum_new') }}" class="btn-link">Créer un nouveau forum</a>
-</div>
+				<div class="card col-4 mx-3" style="width: 18rem;">
+					{% for file in forum.file %}
+
+						<img src="{{ asset('uploads/forums/' ~ file.url) }}" class="card-img-top" alt="...">
+					{% endfor %}
+					<div class="card-body">
+						<h5 class="card-title">{{ forum.sujet }}</h5>
+						<p class="card-text">{{ forum.user.pseudo }}</p>
+						<p class="card-text">{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+						{% if forum.user.id == app.user.id %}
+							<form action="{{ path('app_forum_delete', {'id': forum.id}) }}" method="post">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
+								<button type="submit" name="submit" class="btn btn-danger">delete</button>
+							</form>
+						{% endif %}
+						<a href="{{path('app_forum_show', {'id': forum.id})}}" class="btn btn-primary">Lire plus...</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<a href="{{ path('app_forum_new') }}" class="btn-link">Créer un nouveau forum</a>
+	</div>
 {% endblock %}

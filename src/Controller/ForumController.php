@@ -17,9 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
+#[Route('/forum')]
 class ForumController extends AbstractController
 {
-    #[Route('/forum', name: 'app_forum', methods: ['GET'])]
+    #[Route('/', name: 'app_forum', methods: ['GET'])]
     public function index(ForumRepository $forumRepository): Response
     {
         return $this->render('forum/index.html.twig', [
@@ -85,7 +86,7 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
 
 
 
-    #[Route('/{id}/edit', name: 'app_forum_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'app_forum_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ForumType::class, $forum);
@@ -105,12 +106,12 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
 
 
 
-    #[Route('/{id}', name: 'app_forum_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_forum_delete', methods: ['POST'])]
     public function delete(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
     {
         // Vérifiez si le jeton CSRF est valide
         if ($this->isCsrfTokenValid('delete' . $forum->getId(), $request->request->get('_token'))) {
-
+dump($forum);
 
             // Récupérez les fichiers associés au forum
             $files = $forum->getFile();
@@ -131,7 +132,7 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         return $this->redirectToRoute('app_forum', [], Response::HTTP_SEE_OTHER);
     }
 
-#[Route('/{id}/reply', name: 'app_forum_reply', methods: ['GET', 'POST'])]
+#[Route('/reply/{id}', name: 'app_forum_reply', methods: ['GET', 'POST'])]
 public function reply(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
 {
     if ($request->isMethod('POST')) {
@@ -160,30 +161,4 @@ public function reply(Request $request, Forum $forum, EntityManagerInterface $en
         'forum' => $forum
     ]);
 }
-
-
-    // src/Controller/ForumController.php
-
-    // #[Route('/forum/{id}/add-comment', name: 'app_forum_add_comment', methods: ['POST'])]
-    // public function addComment(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
-    // {
-    //     $user = $this->getUser(); // Assurez-vous que l'utilisateur est connecté
-    //     $commentContent = $request->request->get('comment');
-
-    //     if ($commentContent) {
-    //         $comment = new Comment();
-    //         $comment->setMessage($commentContent);
-    //         $comment->setUser($user);
-    //         $comment->setForum($forum);
-
-    //         $entityManager->persist($comment);
-    //         $entityManager->flush();
-
-    //         $this->addFlash('success', 'Votre commentaire a été ajouté.');
-    //     } else {
-    //         $this->addFlash('error', 'Le commentaire ne peut pas être vide.');
-    //     }
-
-    //     return $this->redirectToRoute('app_forum_show', ['id' => $forum->getId()]);
-    // }
 }
