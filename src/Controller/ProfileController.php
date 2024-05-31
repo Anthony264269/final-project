@@ -16,27 +16,30 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
+use App\Repository\ForumRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[IsGranted('ROLE_USER')]
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(EntityManagerInterface $entityManager, Request $request, VehiculeRepository $vehiculeRepository): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, VehiculeRepository $vehiculeRepository, ForumRepository $forumRepository): Response
     {
         $user = $this->getUser();
        
-
         // Récupérer les véhicules associés à l'utilisateur
         $vehicules = $vehiculeRepository->findBy(['user' => $user]);
-
-    
+        
+        // Récupérer les forums actifs de l'utilisateur
+        $activeForums = $forumRepository->findForumsByUserActivity($user);
 
         return $this->render('profile/index.html.twig', [
             'user' => $user,
             'vehicules' => $vehicules, // Passer les véhicules à afficher dans le modèle
+            'activeForums' => $activeForums, // Passer les forums actifs à afficher dans le modèle
         ]);
     }
+
 
     #[Route('/profile/edit/', name: 'app_profile_edit')]
     public function editProfile(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
@@ -95,5 +98,8 @@ class ProfileController extends AbstractController
             'profileForm' => $form->createView(),
         ]);
     }
+
+    
     
 }
+

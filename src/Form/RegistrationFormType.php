@@ -19,14 +19,9 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('pseudo')
-        ->add('country')
-        ->add('birthAt')
-        ->add('createdAt', TypeDateTimeType::class, [
-            'label' => 'Date de registration',
-            'widget' => 'single_text', // Utilise un widget de type texte pour l'entrée de date
-            // Ajoutez d'autres options de formatage de date si nécessaire
-        ])
+            ->add('pseudo')
+            ->add('country')
+            ->add('birthAt')
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -37,7 +32,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
-           
+
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -47,12 +42,11 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                      
+
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

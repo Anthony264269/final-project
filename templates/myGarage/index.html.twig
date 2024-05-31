@@ -52,17 +52,17 @@
 					<p class="mb-3 mr-1">{{ maintenance.createdAt|date('d-m-Y') }}:
 						{{ maintenance.maintenance }}
 					</p>
-					<form action="{{ path('delete_maintenance', {'id': vehicule.id}) }}" method="post">
+					<form action="{{ path('delete_maintenance', {'id': maintenance.id}) }}" method="post">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ maintenance.id) }}">
 						<button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
 					</form>
 				</div>
-
 			{% endfor %}
 		</div>
-        <div class="next-vehicule d-flex justify-content-center gap-5">
-		<a href="{{ path('app_my_garage', {'id': prevId}) }}" class="btn btn-primary">Précédent</a>
-		<a href="{{ path('app_my_garage', {'id': nextId}) }}" class="btn btn-primary">Suivant</a>
-        </div>
+		<div class="next-vehicule d-flex justify-content-center gap-5">
+			<a href="{{ path('app_my_garage', {'id': prevId}) }}" class="btn btn-primary">Précédent</a>
+			<a href="{{ path('app_my_garage', {'id': nextId}) }}" class="btn btn-primary">Suivant</a>
+		</div>
 	</section>
 </section>
 {% block javascripts %}

@@ -1,74 +1,87 @@
 {% extends 'base.html.twig' %}
 
 {% block head %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/styles/forum-show.css') }}">
-    {% endblock %}
+	{% block stylesheets %}
+		<link rel="stylesheet" href="{{ asset('assets/styles/forum-show.css') }}">
+	{% endblock %}
 {% endblock %}
 
 {% block body %}
-<div class="container d-flex flex-column justify-content-center">
-    <div class="profile-header d-flex align-items-center mb-4">
-        <div class="img-profile-container">
-            {% if app.user.getFile() %}
-                <img class="img-profile" src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="Profile photo of {{ app.user.pseudo }}">
-            {% else %}
-                <img class="img-profile" src="{{ asset('path/to/default/profile.jpg') }}" alt="Default profile photo">
-            {% endif %}
-        </div>
-        <div class="user-info ml-3">
-            <h4>{{ app.user.pseudo }}</h4>
-            <p>{{ app.user.country }}</p>
-            {# <p>{{ app.category }}</p> #}
-        </div>
-    </div>
+	<div class="container d-flex flex-column justify-content-center">
+		<div class="profile-header d-flex align-items-center mb-4">
+			<div class="img-profile-container">
+				{% if app.user.getFile() %}
+					<img class="img-profile" src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="Profile photo of {{ app.user.pseudo }}">
+				{% else %}
+					<img class="img-profile" src="{{ asset('path/to/default/profile.jpg') }}" alt="Default profile photo">
+				{% endif %}
+			</div>
+			<div class="user-info ml-3">
+				<h4>{{ app.user.pseudo }}</h4>
+				<p>{{ app.user.country }}</p>
+				{# <p>{{ app.category }}</p> #}
+			</div>
+		</div>
 
-    <h3>{{ forum.sujet }}</h3>
-    <p>{{ forum.message }}</p>
-    <p>{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</p>
-    <!-- Existing comments list -->
-    <div class="container d-flex flex-column justify-content-center align-items-center">
-        {% if forum.file %}
-            {% for oneFile in forum.file %}
-                <img class="photo-forum-accueil" src="{{ asset('uploads/forums/' ~ oneFile.url) }}" alt="photo"/>
-            {% endfor %}
-        {% endif %}
-        <h2>Commentaires</h2>
-        {% if forum.comments|default %}
-            {% for comment in forum.comments %}
-                <div>
-                    {% if comment.user %}
-                        <strong>{{ comment.user.pseudo }}</strong>
-                    {% else %}
-                        <strong>Utilisateur inconnu</strong>
-                    {% endif %}
-                    <p>{{ comment.message }}</p>
-                    {% if comment.file %}
-                        <img class="photo-forum" src="{{ asset('uploads/forums/' ~ comment.file.url) }}" alt="photo"/>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>Aucun commentaire pour le moment.</p>
-        {% endif %}
-    </div>
+		<h3>{{ forum.sujet }}</h3>
+		<p>{{ forum.message }}</p>
+		<p>{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+		<!-- Existing comments list -->
+		<div class="container d-flex flex-column justify-content-center align-items-center">
+			{% if forum.file %}
+				{% for oneFile in forum.file %}
+					<img class="photo-forum-accueil" src="{{ asset('uploads/forums/' ~ oneFile.url) }}" alt="photo"/>
+				{% endfor %}
+			{% endif %}
+            <div class="forum">
+			<h2>Commentaires</h2>
+			{% if forum.comments|default %}
+				{% for comment in forum.comments %}
+					<div class="comment">
+						<div class="comment-header d-flex align-items-center">
+							{% if comment.user %}
+								{% if comment.user.getFile() %}
+									<img class="photo-user-comment" src="{{ asset('uploads/users/' ~ comment.user.getFile().url) }}" alt="{{ comment.user.pseudo }}'s photo" width="50" height="50"/>
+								{% else %}
+									<img class="photo-user-comment" src="{{ asset('images/logo/default-user.png') }}" alt="default user photo" width="50" height="50"/>
+								{% endif %}
+								<p class="pseudo">{{ comment.user.pseudo }}</p>
+								<p class="mb-0 mt-1">{{ comment.user.createdAt ? comment.user.createdAt|date('d-m-Y H:i:s') : '' }}</p>
 
-    <!-- Add a comment form -->
-    <h3>Ajouter un commentaire</h3>
-    {{ form_start(form) }}
-    <div class="form-group">
-        {{ form_label(form.message, 'Votre commentaire :') }}
-        {{ form_widget(form.message, {'attr': {'class': 'form-control', 'required': true}}) }}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.file, 'Ajouter une photo :') }}
-        {{ form_widget(form.file, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Poster</button>
-    </div>
-    {{ form_end(form) }}
+							{% else %}
+								<strong>Utilisateur inconnu</strong>
+							{% endif %}
+						</div>
+						<p>{{ comment.message }}</p>
 
-    <a href="{{ path('app_forum') }}">Retour aux forums</a>
-</div>
+						{% if comment.file %}
+							<img class="photo-forum" src="{{ asset('uploads/forums/' ~ comment.file.url) }}" alt="photo"/>
+						{% endif %}
+					</div>
+				{% endfor %}
+			{% else %}
+				<p>Aucun commentaire pour le moment.</p>
+			{% endif %}
+            </div>
+
+		</div>
+
+		<!-- Add a comment form -->
+		<h3>Ajouter un commentaire</h3>
+		{{ form_start(form) }}
+		<div class="form-group">
+			{{ form_label(form.message, 'Votre commentaire :') }}
+			{{ form_widget(form.message, {'attr': {'class': 'form-control', 'required': true}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(form.file, 'Ajouter une photo :') }}
+			{{ form_widget(form.file, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary">Poster</button>
+		</div>
+		{{ form_end(form) }}
+
+		<a href="{{ path('app_forum') }}">Retour aux forums</a>
+	</div>
 {% endblock %}

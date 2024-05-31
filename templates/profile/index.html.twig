@@ -1,78 +1,102 @@
+{# templates/profile/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block head %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/styles/profile.css') }}">
-    {% endblock %}
+	{% block stylesheets %}
+		<link rel="stylesheet" href="{{ asset('assets/styles/profile.css') }}">
+	{% endblock %}
 {% endblock %}
 
-{% block title %}Mon profil{% endblock %}
+{% block title %}Mon profil
+{% endblock %}
 
 {% block body %}
-    <section id="profile">
-        <div class="pseudo text-white d-flex">
-            {% if app.user %}
-                {{ app.user.pseudo }}
-            {% endif %}
-            <a class="text-white" href="{{ path('app_profile_edit') }}">
-                <img class="custom-img-car" src="{{ asset('images/logo/add-profile.png') }}">
-            </a>
-        </div>
-        {% if app.user.getFile() %}
-            <div class="img-profile-container">
-                <img class="img-profile" src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="image profile">
-            </div>
-        {% else %}
-            <img class="card-img-top" src="{{ asset('images/logo-renault.png') }}" alt="image par défaut">
-        {% endif %}
-        <div class="d-flex flex-column">
-            <a class="text-white" href="{{ path('app_vehicule') }}">
-                <img class="custom-img-car" src="{{ asset('images/logo/add-vehicule.png') }}">
-            </a>
-        </div>
-        <h3 class="text-white container">
-            <img class="custom-img-car" src="{{ asset('images/logo/logo-car.png') }}">Mes véhicules
-        </h3>
-    </section>
+	<section id="profile">
+		<div class="pseudo text-white d-flex">
+			{% if app.user %}
+				{{ app.user.pseudo }}
+			{% endif %}
+			<a class="text-white" href="{{ path('app_profile_edit') }}">
+				<img class="custom-img-car" src="{{ asset('images/logo/add-profile.png') }}">
+			</a>
+		</div>
+		{% if app.user.getFile() %}
+			<div class="img-profile-container">
+				<img class="img-profile" src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="image profile">
+			</div>
+		{% else %}
+			<img class="card-img-top" src="{{ asset('images/logo-renault.png') }}" alt="image par défaut">
+		{% endif %}
+		<div class="d-flex flex-column">
+			<a class="text-white" href="{{ path('app_vehicule') }}">
+				<img class="custom-img-car" src="{{ asset('images/logo/add-vehicule.png') }}">
+			</a>
+		</div>
 
-    <section id="card">
-        {% if vehicules is empty %}
-        <div class="d-flex m-0">
-            <p class="text-white ">Aucun véhicule trouvé. Ajoutez des véhicules.</p>   <a class="" href="{{ path('app_vehicule') }}">
-                <img class="custom-img-car" src="{{ asset('images/logo/add-vehicule.png') }}">
-            </a></div>
-        {% else %}
-            {% for vehicule in vehicules %}
-                <div class="card">
-                    <img class="card-img-top" src="{{ vehicule.imageUrl and vehicule.imageUrl.url ? asset('uploads/vehicules/' ~ vehicule.imageUrl.url) : asset('path/to/default/image.jpg') }}" alt="Image de {{ vehicule.brand }} {{ vehicule.model }}">
-                    <div class="card-body">
-                        <div>
-                            <p class="card-title fs-5 mb-5">
-                                <img class="text-white custom-img" src="{{ asset('images/logo/logo-vehicule.png') }}">
-                                {{ vehicule.brand }}-{{ vehicule.model }}
-                            </p>
-                            <p class="card-title mb-3">
-                                <img class="custom-img" src="{{ asset('images/logo/logo-motorisation.png') }}">
-                                {{ vehicule.motorization }}
-                            </p>
-                            <p class="card-title">
-                                <img class="custom-img" src="{{ asset('images/logo/logo-maintenance.png') }}">Maintenance
-                            </p>
-                        </div>
-                    </div>
-                    <div class="button-card">
-                        <button class="custom-button mb-3" onclick="window.location.href = '{{ path('app_my_garage', {id: vehicule.id}) }}'">Détails</button>
-                    </div>
-                    <form action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
-                    </form>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </section>
+	</section>
+
+	<h3 class="text-white container justify-content-center fs-2">
+		<img class="custom-img-car" src="{{ asset('images/logo/logo-car.png') }}">Mes véhicules
+	</h3>
+
+	<section id="card">
+		{% if vehicules is empty %}
+			<div class="ajouter-vehicule d-flex m-0">
+				<p class="text-white d-flex align-items-center justify-content-center">Aucun véhicule trouvé. Ajoutez des véhicules.</p>
+				<a class="" href="{{ path('app_vehicule') }}">
+					<img class="custom-img-car" src="{{ asset('images/logo/add-vehicule.png') }}">
+				</a>
+			</div>
+		{% else %}
+			{% for vehicule in vehicules %}
+				<div class="card">
+					<img class="card-img-top" src="{{ vehicule.imageUrl and vehicule.imageUrl.url ? asset('uploads/vehicules/' ~ vehicule.imageUrl.url) : asset('path/to/default/image.jpg') }}" alt="Image de {{ vehicule.brand }} {{ vehicule.model }}">
+					<div class="card-body">
+						<div>
+							<p class="card-title fs-5 mb-5">
+								<img class="text-white custom-img" src="{{ asset('images/logo/logo-vehicule.png') }}">
+								{{ vehicule.brand }}-{{ vehicule.model }}
+							</p>
+							<p class="card-title mb-3">
+								<img class="custom-img" src="{{ asset('images/logo/logo-motorisation.png') }}">
+								{{ vehicule.motorization }}
+							</p>
+							<p class="card-title">
+								<img class="custom-img" src="{{ asset('images/logo/logo-maintenance.png') }}">Maintenance
+							</p>
+						</div>
+					</div>
+					<div class="button-card">
+						<button class="custom-button mb-3" onclick="window.location.href = '{{ path('app_my_garage', {id: vehicule.id}) }}'">Détails</button>
+					</div>
+					<form action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="post">
+						<input type="hidden" name="_method" value="DELETE">
+						<button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
+					</form>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</section>
+
+	<section id="forum">
+		<h2 class="forum-titre text-white container">Derniers Forums Actifs :</h2>
+		<div class="row">
+		{% for forum in activeForums|slice(0, 3) %}
+    <div class="forum-card col-4 mx-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">{{ forum.sujet }}</h5>
+            <a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-lire-plus">Lire plus...</a>
+        </div>
+        <p class="card-text">{{ forum.user.pseudo }}</p>
+        <p class="card-text">{{ forum.createdAt ? forum.createdAt|date('d-m-y') : '' }}</p>
+        <p class="card-text">{{ forum.message }}...</p>
+    </div>
+{% endfor %}
+		</div>
+	</section>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/js/drag-scroll.js') }}"></script>
+	<script src="{{ asset('assets/js/drag-scroll.js') }}"></script>
 {% endblock %}
