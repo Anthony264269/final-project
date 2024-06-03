@@ -51,7 +51,7 @@
 		{% else %}
 			{% for vehicule in vehicules %}
 				<div class="card">
-					<img class="card-img-top" src="{{ vehicule.imageUrl and vehicule.imageUrl.url ? asset('uploads/vehicules/' ~ vehicule.imageUrl.url) : asset('path/to/default/image.jpg') }}" alt="Image de {{ vehicule.brand }} {{ vehicule.model }}">
+					<img class="card-img-top" src="{{ vehicule.imageUrl and vehicule.imageUrl.url ? asset('uploads/vehicules/' ~ vehicule.imageUrl.url) : asset('path/to/default/image.jpg') }}" alt="Image de véhicule">
 					<div class="card-body">
 						<div>
 							<p class="card-title fs-5 mb-5">
@@ -63,17 +63,21 @@
 								{{ vehicule.motorization }}
 							</p>
 							<p class="card-title">
-								<img class="custom-img" src="{{ asset('images/logo/logo-maintenance.png') }}">Maintenance
+								<img class="custom-img" src="{{ asset('images/logo/logo-maintenance.png') }}">Maintenance: ({{ vehicule.getMaintenanceCount() }})
 							</p>
 						</div>
 					</div>
-					<div class="button-card">
-						<button class="custom-button mb-3" onclick="window.location.href = '{{ path('app_my_garage', {id: vehicule.id}) }}'">Détails</button>
+					<div class="button-card d-flex align-items-center">
+						<button class="custom-button mb-3 me-3" onclick="window.location.href = '{{ path('app_my_garage', {id: vehicule.id}) }}'">Détails</button>
+						<form action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="post">
+							<input type="hidden" name="_method" value="DELETE">
+							<button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit" style="background: none; border: none;">
+								<img src="{{ asset('images/logo/delete_white.png') }}" alt="Supprimer" style="width: 20px; height: 20px;">
+							</button>
+						</form>
 					</div>
-					<form action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="post">
-						<input type="hidden" name="_method" value="DELETE">
-						<button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
-					</form>
+
+
 				</div>
 			{% endfor %}
 		{% endif %}
@@ -82,17 +86,17 @@
 	<section id="forum">
 		<h2 class="forum-titre text-white container">Derniers Forums Actifs :</h2>
 		<div class="row">
-		{% for forum in activeForums|slice(0, 3) %}
-    <div class="forum-card col-4 mx-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-title">{{ forum.sujet }}</h5>
-            <a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-lire-plus">Lire plus...</a>
-        </div>
-        <p class="card-text">{{ forum.user.pseudo }}</p>
-        <p class="card-text">{{ forum.createdAt ? forum.createdAt|date('d-m-y') : '' }}</p>
-        <p class="card-text">{{ forum.message }}...</p>
-    </div>
-{% endfor %}
+			{% for forum in activeForums|slice(0, 3) %}
+				<div class="forum-card col-4 mx-3">
+					<div class="d-flex justify-content-between align-items-center">
+						<h5 class="card-title">{{ forum.sujet }}</h5>
+						<a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-lire-plus">Lire plus...</a>
+					</div>
+					<p class="card-text">{{ forum.user.pseudo }}</p>
+					<p class="card-text">{{ forum.createdAt ? forum.createdAt|date('d-m-y') : '' }}</p>
+					<p class="card-text">{{ forum.message }}...</p>
+				</div>
+			{% endfor %}
 		</div>
 	</section>
 {% endblock %}

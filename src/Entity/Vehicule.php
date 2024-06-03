@@ -171,4 +171,8 @@ class Vehicule
 
         return $this;
     }
+    public function getMaintenanceCount(): int
+    {
+        return $this->maintenance->count();
+    }
 }

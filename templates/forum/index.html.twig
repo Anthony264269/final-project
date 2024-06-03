@@ -18,7 +18,7 @@
 				<div class="card col-4 mx-3" style="width: 18rem;">
 					{% for file in forum.file %}
 
-						<img src="{{ asset('uploads/forums/' ~ file.url) }}" class="card-img-top" alt="...">
+						<img class="card-img" src="{{ asset('uploads/forums/' ~ file.url) }}" class="card-img-top" alt="...">
 					{% endfor %}
 					<div class="card-body">
 						<h5 class="card-title">{{ forum.sujet }}</h5>
@@ -27,7 +27,9 @@
 						{% if forum.user.id == app.user.id %}
 							<form action="{{ path('app_forum_delete', {'id': forum.id}) }}" method="post">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
-								<button type="submit" name="submit" class="btn btn-danger">delete</button>
+								<button type="submit" name="submit" class="btn btn-danger">
+								<img src="{{ asset('images/logo/delete_white.png') }}" alt="Supprimer" style="width: 20px; height: 20px;">
+								</button>
 							</form>
 						{% endif %}
 						<a href="{{path('app_forum_show', {'id': forum.id})}}" class="btn btn-primary">Lire plus...</a>
