@@ -32,11 +32,11 @@
 	</section>
 	<section id="entretien">
 		<h2>Entretien</h2>
-		<div class="mes-entretiens">
+		<div class="mes-entretiens container">
 
 			<button class="custom-button-maintenance " type="button" onclick="openPopup()">Ajouter Maintenance</button>
 
-
+{# cela permet d'ouvrir une popup pour créer une maintenance #}
 			<div id="popup" class="popup">
 				<div class="popup-content">
 					<span class="close" onclick="closePopup()">&times;</span>
@@ -60,8 +60,8 @@
 			{% endfor %}
 		</div>
 		<div class="next-vehicule d-flex justify-content-center gap-5">
-			<a href="{{ path('app_my_garage', {'id': prevId}) }}" class="btn btn-primary">Précédent</a>
-			<a href="{{ path('app_my_garage', {'id': nextId}) }}" class="btn btn-primary">Suivant</a>
+			<a href="{{ path('app_my_garage', {'id': prevId}) }}" class="custom-button-maintenance-plus">Précédent</a>
+			<a href="{{ path('app_my_garage', {'id': nextId}) }}" class="custom-button-maintenance-plus">Suivant</a>
 		</div>
 	</section>
 </section>

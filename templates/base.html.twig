@@ -13,49 +13,51 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top p-0">
-                <div class="container-fluid d-flex justify-content-between">
-                    <img src="{{asset('images/mon-logo/logo-projet-final-removebg-preview.png')}}" class="m-0 p-0" width="80px" height="auto" alt="mon logo">
-                    <a class="navbar-brand fs-2" href="{{path('app_home')}}">Mon Atelier Garage</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            {% if not app.user %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
-                            </li>
-                          
-                            {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_profile') }}">Profil</a>
-                            </li>
-                               <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_forum') }}">Forum</a>
-                            </li>
-                            {% endif %}
-                        </ul>
+        <div class="wrapper d-flex flex-column min-vh-100">
+            <header>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top p-0">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <img src="{{asset('images/mon-logo/logo-projet-final-removebg-preview.png')}}" class="m-0 p-0" width="80px" height="auto" alt="mon logo">
+                        <a class="navbar-brand fs-2" href="{{path('app_home')}}">Mon Atelier Garage</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                {% if not app.user %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_profile') }}">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_forum') }}">Forum</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
+                </nav>
+            </header>
+            <main class="flex-grow-1">
+                {% block body %}{% endblock %}
+            </main>
+            <footer class="footer mt-auto">
+                <div class="container d-flex justify-content-center align-items-center text-light">
+                    <p>© 2024 Tous droits réservés</p>
+                    <a class="text-light ms-3" href="#" target="_blank">Conditions Générales de Vente</a>
                 </div>
-            </nav>
-        </header>
-        {% block body %}{% endblock %}
-        <footer class="footer">
-            <div class="color_brand_primary text-light d-flex justify-content-center">
-                   <p> © 2024 Tous droits réservés</p>
-                    <a class="color_brand_primary right" href="#" target="_blank">Conditions Générales de Vente</a>
-                </div>
-           </footer>
+            </footer>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
         {% block javascripts %}
             {% block importmap %}
                 {{ importmap('app') }}
