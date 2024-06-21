@@ -11,8 +11,11 @@
 
 {% block body %}
 	<div class="container">
+	<div class="d-flex justify-content-center mb-5">
 		<h3 class="fs-1">Forum Index</h3>
-		<div class="row">
+		<img src="{{ asset('images/mon-logo/logo.png') }}" class="img-fluid logo" alt="img voiture">
+		</div>
+		<div class="row d-flex justify-content-center ">
 			{% for forum in forums %}
 
 				<div class="card col-4 mx-3" style="width: 18rem;">
@@ -22,24 +25,27 @@
 					{% endfor %}
 					<div class="card-body">
 						{% if forum.forumCategory %}
-							<p class="category">{{ forum.forumCategory.category }}</p>
+							<div class="d-flex">
+								<h5 class="card-title fs-5 mb-5">{{ forum.sujet }}</h5>
+								<p class="category">{{ forum.forumCategory.category }}</p>
+							</div>
 						{% else %}
 							<p class="card-text">Aucune catégorie</p>
 						{% endif %}
-						<h5 class="card-title">{{ forum.sujet }}</h5>
+
 						<p class="card-text">{{ forum.user.pseudo }}</p>
 						<p class="card-text">{{ forum.createdAt ? forum.createdAt|date('Y-m-d H:i:s') : '' }}</p>
 						<div class="d-flex">
-						{% if forum.user.id == app.user.id %}
-							<form action="{{ path('app_forum_delete', {'id': forum.id}) }}" method="post">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
-								<button type="submit" name="submit" class="btn">
-									<img src="{{ asset('images/logo/delete_white.png') }}" alt="Supprimer" style="width: 20px; height: 20px;">
-								</button>
-							</form>
-						{% endif %}
-						<a href="{{path('app_forum_show', {'id': forum.id})}}" class="btn-next">Lire plus...</a>
-					</div>
+							{% if forum.user.id == app.user.id %}
+								<form class="d-flex justify-content-center align-items-center" action="{{ path('app_forum_delete', {'id': forum.id}) }}" method="post">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ forum.id) }}">
+									<button type="submit" name="submit" class="btn">
+										<img src="{{ asset('images/logo/delete_white.png') }}" alt="Supprimer" style="width: 20px; height: 20px;">
+									</button>
+								</form>
+							{% endif %}
+							<a href="{{path('app_forum_show', {'id': forum.id})}}" class="btn-next">Lire plus...</a>
+						</div>
 					</div>
 				</div>
 			{% endfor %}

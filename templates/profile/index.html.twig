@@ -43,10 +43,12 @@
 	<section id="card">
 		{% if vehicules is empty %}
 			<div class="ajouter-vehicule d-flex m-0">
+			<div class="no-vehicule flex-column justify-content-center align-items-center">
 				<p class="text-white d-flex align-items-center justify-content-center">Aucun véhicule trouvé. Ajoutez des véhicules.</p>
-				<a class="" href="{{ path('app_vehicule') }}">
-					<img class="custom-img-car" src="{{ asset('images/logo/add-vehicule.png') }}">
+				<a href="{{ path('app_vehicule') }}">
+					<img class="custom-img-no-car" src="{{ asset('images/logo/add-vehicule.png') }}">
 				</a>
+				</div>
 			</div>
 		{% else %}
 			{% for vehicule in vehicules %}
@@ -84,21 +86,35 @@
 	</section>
 
 	<section id="forum">
-		<h2 class="forum-titre text-white container">Derniers Forums Actifs :</h2>
-		<div class="row">
-			{% for forum in activeForums|slice(0, 3) %}
-				<div class="forum-card col-4 mx-3">
-					<div class="d-flex justify-content-between align-items-center">
-						<h5 class="card-title">{{ forum.sujet }}</h5>
-						<a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-lire-plus">Lire plus...</a>
-					</div>
-					<p class="card-text">{{ forum.user.pseudo }}</p>
-					<p class="card-text">{{ forum.createdAt ? forum.createdAt|date('d-m-y') : '' }}</p>
-					<p class="card-text">{{ forum.message }}...</p>
-				</div>
-			{% endfor %}
-		</div>
-	</section>
+    <div class="container">
+        <div class="d-flex">
+            <h2 class="forum-titre text-white">Derniers Forums Actifs :</h2>
+            {% if activeForums is empty %}
+                <a href="{{ path('app_forum_new') }}" class="btn">Créer un forum</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if activeForums is not empty %}
+        <div class="row">
+            {% for forum in activeForums|slice(0, 3) %}
+                <div class="forum-card col-4 mx-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">{{ forum.sujet }}</h5>
+                        <a href="{{ path('app_forum_show', {'id': forum.id}) }}" class="btn-lire-plus">Lire plus...</a>
+                    </div>
+                    <p class="card-text">{{ forum.user.pseudo }}</p>
+                    <p class="card-text">{{ forum.createdAt ? forum.createdAt|date('d-m-y') : '' }}</p>
+                    <p class="card-text">{{ forum.message }}...</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert" role="alert">
+            <p>Aucun forum actif trouvé. Commencez par créer le vôtre !</p>
+        </div>
+    {% endif %}
+</section>
 {% endblock %}
 
 {% block javascripts %}
