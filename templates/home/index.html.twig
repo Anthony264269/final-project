@@ -2,31 +2,28 @@
 
 {% block head %}
     {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('assets/styles/app.css')}}">
+        <link rel="stylesheet" href="{{ asset('assets/styles/app.css') }}">
     {% endblock %}
 {% endblock %}
 
 {% block title %}Mon Atelier Garage{% endblock %}
 
 {% block body %}
-
 <section id="accueil-index">
     <div class="container-fluid">
- 
         <div class="row align-items-center">
             <div class="col-md-6 text-end">
                 <h2 class="text-light fs-1">Répertoriez vos entretiens facilement!</h2>
-                <p class="text-light fs-5 pt-3">Créez votre propre garage et enregistrez vos véhicules et entretien effectués !</p>
+                <p class="text-light fs-5 pt-3">Créez votre propre garage et enregistrez vos véhicules et entretiens effectués !</p>
             </div>
             <div class="col-md-6 p-0 d-flex justify-content-end">
-                <img src="./images/images-accueil/test-auto-1-removebg-preview.png" class="img-fluid" alt="img voiture" style="width: 50%; height: auto;">
+                <img src="{{ asset('images/images-accueil/test-auto-1-removebg-preview.png') }}" class="img-fluid" alt="img voiture" style="width: 50%; height: auto;">
             </div>
         </div>
-
         
         <div class="row align-items-center mt-5">
             <div class="col-md-6 p-0">
-                <img src="./images/images-accueil/moto_profile_design_sport_sans_fond-removebg-preview.png" class="img-fluid" alt="img moto" style="width: 40%; height: auto;">
+                <img src="{{ asset('images/images-accueil/moto_profile_design_sport_sans_fond-removebg-preview.png') }}" class="img-fluid" alt="img moto" style="width: 40%; height: auto;">
             </div>
             <div class="col-md-6 text-start">
                 <h2 class="text-light fs-1">Besoin d’aide en mécanique?</h2>
@@ -35,5 +32,4 @@
         </div>
     </div>
 </section>
-
 {% endblock %}

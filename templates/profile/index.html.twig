@@ -18,7 +18,7 @@
 				{{ app.user.pseudo }}
 			{% endif %}
 			<a class="text-white" href="{{ path('app_profile_edit') }}">
-				<img class="modif-user" src="{{ asset('images/logo/add-profile.png') }}">
+				<img class="modif-user" alt="logo-modif-user" src="{{ asset('images/logo/add-profile.png') }} ">
 			</a>
 		</div>
 		{% if app.user.getFile() %}
