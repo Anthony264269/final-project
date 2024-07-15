@@ -9,7 +9,9 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <h1 class="text-white d-flex justify-content-center pb-5">Connexion</h1>
+    <h2 class="logo-container">Connexion
+        <img src="{{ asset('images/mon-logo/logo.png') }}" class="logo" alt="logo mon atelier garage">
+    </h2>
     <div class="input-box d-flex justify-content-center align-items-center">
         <form method="post">
             {% if error %}
@@ -21,7 +23,7 @@
                 </div>
             {% endif %}
             
-            <label for="inputEmail">Email</label>
+            <label for="inputEmail">Pseudo</label>
             <i class='bx bxs-user'></i>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
             

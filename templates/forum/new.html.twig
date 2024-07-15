@@ -11,36 +11,34 @@
 {% block body %}
     <div class="logo-container">
         <h2>Créer un nouveau Forum
-        <img src="{{ asset('images/mon-logo/logo.png') }}" class="img-fluid logo" alt="img voiture"></h2>
+        <img src="{{ asset('images/mon-logo/logo.png') }}" class="logo" alt="img logo mon atelier garage"></h2>
     </div>
-    <div class="container">
+    <div class="container-1">
         {{ form_start(form) }}
-        <div class="form-group">
+        <div class="nom">
             {{ form_label(form.sujet, 'Nom :') }}
             {{ form_widget(form.sujet, {'attr': {'class': 'form-control'} }) }}
         </div>
 
-        <div class="form-group">
+        <div class="category">
             {{ form_label(form.forumCategory, 'Catégorie :') }}
             {{ form_widget(form.forumCategory, {'attr': {'class': 'form-control'} }) }}
         </div>
 
-        <div class="form-group">
-            {{ form_label(form.message, 'Sujet :') }}
-            {{ form_widget(form.message, {'attr': {'class': 'form-control'} }) }}
+        <div class="sujet">
+            {{ form_label(form.message, 'Message :') }}
+            {{ form_widget(form.message, {'attr': {'class': 'form-control', 'rows': '5', 'style': 'resize: none;' } }) }}
         </div>
+        
 
         <div class="form-group custom-file-input">
             <label class="file-label" for="{{ form.file.vars.id }}">
                 <img src="{{ asset('images/logo/add-photo.png') }}" alt="Ajouter une photo" class="white-logo">
-                <p>Ajouter une photo</p>
             </label>
             {{ form_widget(form.file, {'attr': {'class': 'file-input'} }) }}
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Poster</button>
-        </div>
+       
+             <button type="submit" class="btn btn-primary">Poster</button>
+      </div>
 
         {{ form_end(form) }}
         <a href="{{ path('app_forum') }}">Retour à la liste des Forums</a>

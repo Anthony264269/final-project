@@ -8,6 +8,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,9 @@ class ForumType extends AbstractType
     {
         $builder
             ->add('sujet')
-            ->add('message')
+            ->add('message', TextareaType::class, [
+                'attr' => ['class' => 'form-control', 'rows' => 5],
+            ])
             ->add('forumCategory', EntityType::class, [
                 'class' => ForumCategory::class,
                 'choice_label' => 'category',
@@ -36,4 +39,4 @@ class ForumType extends AbstractType
             'data_class' => Forum::class,
         ]);
     }
-}
+} 

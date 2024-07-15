@@ -77,18 +77,18 @@
 		</div>
 
 
-		<h3>Ajouter un commentaire</h3>
+		<h3 class="mt-5">Ajouter un commentaire</h3>
 		{{ form_start(form) }}
-		<div class="form-group">
+		<div class="form-group mt-5">
 			{{ form_label(form.message, 'Votre commentaire :') }}
-			{{ form_widget(form.message, {'attr': {'class': 'form-control', 'required': true}}) }}
+			{{ form_widget(form.message, {'attr': {'class': 'form-control', 'required': true} }) }}
 		</div>
 		<div class="d-flex justify-content-center align-items-center">
 			<div class="add-photo p-1">
 				<label for="{{ form.file.vars.id }}" style="cursor: pointer;">
 					<img src="{{ asset('images/logo/add-photo.png') }}" alt="Ajouter une photo" style="width: 50px; height: 50px;">
 				</label>
-				{{ form_widget(form.file, {'attr': {'class': 'form-control', 'style': 'display:none;'}}) }}
+				{{ form_widget(form.file, {'attr': {'class': 'form-control', 'style': 'display:none;'} }) }}
 			</div>
 
 			<div class="p-1">
