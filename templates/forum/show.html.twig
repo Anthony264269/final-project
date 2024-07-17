@@ -13,7 +13,7 @@
 		<div class="profile-header d-flex align-items-center justify-content-start mb-4">
 			<div class="img-profile-container">
 				{% if app.user.getFile() %}
-					<img class="img-profile" src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="Profile photo of {{ app.user.pseudo }}">
+					<img class="img-profile" src="{{ asset('uploads/users/' ~ app.user.getFile().url) }}" alt="Profile photo">
 				{% else %}
 					<img class="img-profile" src="{{ asset('path/to/default/profile.jpg') }}" alt="Default profile photo">
 				{% endif %}

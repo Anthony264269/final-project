@@ -10,27 +10,48 @@
 
 {% block body %}
 <section id="accueil-index">
-    <div class="container-fluid">
-        <div class="moto row align-items-center">
-            
-            <div class="col-md-6 p-0">
-                <img src="{{ asset('images/images-accueil/moto_profile_design_sport_sans_fond-removebg-preview.png') }}" class="img-moto" alt="img moto" style="width: 38%; height: auto;">
-            </div>
-            <div class="col-md-6 text-end">
-                <h2 class="text-light custom-h2 d-flex justify-content-center">Répertoriez vos entretiens facilement!</h2>
-                <p class="text-light custom-p pt-3 d-flex justify-content-center">Créez votre propre garage et enregistrez vos véhicules et entretiens effectués !</p>
-            </div>
-        </div>
-        
-        <div class="voiture row align-items-center">
-          <div class="col-md-6 text-start">
-                <h2 class="text-light custom-h2 d-flex justify-content-start">Besoin d’aide en mécanique?</h2>
-                <p class="text-light custom-p pt-3 d-flex justify-content-start">Rejoignez la communauté à travers des forums !</p>
-            </div>  
-            <div class="col-md-6 p-0 d-flex justify-content-end">
-                <img src="{{ asset('images/images-accueil/test-auto-1-removebg-preview.png') }}" class="img-voiture" alt="img voiture" style="width: 60%; height: auto;">
+    <div class="container-fluid first-section">
+        <div class="moto row align-items-center justify-content-center">
+    
+            <div class="col-12 text-center presentation-card p-4">
+                <h1 class="text-white custom-h2">Répertoriez vos <span class="color-span">entretiens</span> facilement!</h1>
+                <p class="text-white custom-p pt-3">Créez votre propre garage et enregistrez vos véhicules et entretiens effectués !</p>
+                <a href="{{path('app_profile')}}" class="btn btn-primary mt-4">Entretenir</a>
             </div>
         </div>
     </div>
 </section>
+
+<section>
+
+    <div class="voiture row align-items-center p-4 justify-content-around">
+        <div class="col-12 text-center mb-4">
+              <h2 class="text-light custom-h2">Besoin d’aide en mécanique?</h2>
+              <p class="text-light custom-p pt-3">Rejoignez la communauté à travers des forums !</p>
+          </div>  
+
+          <div class="col-md-3 border border-2 rounded-3 text-white text-center p-4">
+              <h3>Créer vos sujets</h3>
+              <img src="{{ asset('images/logo/logo-maintenance.png') }}" alt="voiture" class="logo">
+              <p>Partagez vos problèmes et solutions avec la communauté</p>
+          </div>
+
+          <div class="col-md-3 border border-2 rounded-3 text-white text-center p-4">
+              <h3>Créer vos sujets</h3>
+              <img src="{{ asset('images/logo/logo-car.png') }}" alt="voiture" class="logo">
+              <p>Partagez vos problèmes et solutions avec la communauté</p>
+          </div>
+
+          <div class="col-md-3 border border-2 rounded-3 text-white text-center p-4">
+              <h3>Créer vos sujets</h3>
+              <img src="{{ asset('images/logo/logo-motorisation.png') }}" alt="voiture" class="logo">
+              <p>Partagez vos problèmes et solutions avec la communauté</p>
+          </div>
+
+          <div class="col-12 text-center mt-4">
+              <a href="{{path('app_forum')}}" class="btn btn-light mt-4 text-black">Commencez</a>
+          </div>
+      
+      </div>
+    </section>
 {% endblock %}

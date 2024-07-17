@@ -12,8 +12,8 @@
     <h2 class="logo-container">Connexion
         <img src="{{ asset('images/mon-logo/logo.png') }}" class="logo" alt="logo mon atelier garage">
     </h2>
-    <div class="input-box d-flex justify-content-center align-items-center">
-        <form method="post">
+    <div class="d-flex justify-content-center align-items-center justify-content-center">
+        <form method="post" class="input-box">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
