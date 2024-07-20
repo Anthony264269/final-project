@@ -16,7 +16,11 @@
             <div class="col-12 text-center presentation-card p-4">
                 <h1 class="text-white custom-h2">Répertoriez vos <span class="color-span">entretiens</span> facilement!</h1>
                 <p class="text-white custom-p pt-3">Créez votre propre garage et enregistrez vos véhicules et entretiens effectués !</p>
-                <a href="{{path('app_profile')}}" class="btn btn-primary mt-4">Entretenir</a>
+                {% if app.user %} 
+                <a href="{{path('app_profile')}}" class="btn-entretien btn btn-primary mt-4">Entretenir</a>
+                {% else %}
+                <a href="{{path('app_login')}}" class="btn btn-primary mt-4">Entretenir</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -31,25 +35,29 @@
           </div>  
 
           <div class="col-md-3 border border-2 rounded-3 text-white text-center p-4">
-              <h3>Créer vos sujets</h3>
-              <img src="{{ asset('images/logo/logo-maintenance.png') }}" alt="voiture" class="logo">
-              <p>Partagez vos problèmes et solutions avec la communauté</p>
+              <h3>Créez votre forum</h3>
+              <img src="{{ asset('images/logo/icons8-outil-50.png') }}" alt="outils" class="logo1 width="40px" height="40px"">
+              <p class="mt-2">Partagez vos problèmes et solutions en mécanique avec la communauté </p>
           </div>
 
           <div class="col-md-3 border border-2 rounded-3 text-white text-center p-4">
-              <h3>Créer vos sujets</h3>
-              <img src="{{ asset('images/logo/logo-car.png') }}" alt="voiture" class="logo">
-              <p>Partagez vos problèmes et solutions avec la communauté</p>
+              <h3>Échangez sur des sujets</h3>
+              <img src="{{ asset('images/logo/icons8-tesla-model-s-50.png') }}" alt="voiture" class="logo1 width="40px" height="40px" class="mt-2"">
+              <p class="mt-2"> Astuces et méthodes pour entretenir et réparer vos véhicules.</p>
           </div>
 
           <div class="col-md-3 border border-2 rounded-3 text-white text-center p-4">
-              <h3>Créer vos sujets</h3>
-              <img src="{{ asset('images/logo/logo-motorisation.png') }}" alt="voiture" class="logo">
-              <p>Partagez vos problèmes et solutions avec la communauté</p>
+              <h3>Partagez votre passion</h3>
+              <img src="{{ asset('images/logo/icons8-performance-50.png') }}" alt="voiture" class="logo1 width="40px" height="40px"">
+              <p class="mt-2">Discutez de tout ce qui concerne le monde de la mécanique. </p>
           </div>
 
           <div class="col-12 text-center mt-4">
-              <a href="{{path('app_forum')}}" class="btn btn-light mt-4 text-black">Commencez</a>
+              {% if app.user %} 
+                <a href="{{path('app_forum')}}" class="btn btn-light mt-4 text-black">Go forum</a>
+                {% else %}
+                <a href="{{path('app_login')}}" class="btn btn-light mt-4 text-black">Go forum</a>
+                {% endif %}
           </div>
       
       </div>

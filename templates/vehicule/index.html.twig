@@ -18,17 +18,17 @@
 		{{ form_start(form) }}
 		<div class="form-group">
 			{{ form_label(form.brand, 'Marque :') }}
-			{{ form_widget(form.brand, {'attr': {'class': 'form-control'}}) }}
+			{{ form_widget(form.brand, {'attr': {'class': 'form-control'} }) }}
 		</div>
 
 		<div class="form-group">
 			{{ form_label(form.model, 'Modèle :') }}
-			{{ form_widget(form.model, {'attr': {'class': 'form-control'}}) }}
+			{{ form_widget(form.model, {'attr': {'class': 'form-control'} }) }}
 		</div>
 
 		<div class="form-group">
 			{{ form_label(form.motorization, 'Motorisation :') }}
-			{{ form_widget(form.motorization, {'attr': {'class': 'form-control'}}) }}
+			{{ form_widget(form.motorization, {'attr': {'class': 'form-control'} }) }}
 		</div>
 
 		<div class="form-group custom-file-input">
@@ -36,7 +36,7 @@
 				<img src="{{ asset('images/logo/add-photo.png') }}" alt="Ajouter une photo" class="white-logo">
 				<p>Ajouter une photo</p>
 			</label>
-			{{ form_widget(form.photo, {'attr': {'class': 'file-input'}}) }}
+			{{ form_widget(form.photo, {'attr': {'class': 'file-input'} }) }}
 		</div>
 
 		<div class="form-group">

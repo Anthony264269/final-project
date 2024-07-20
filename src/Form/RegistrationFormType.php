@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Doctrine\DBAL\Types\DateTimeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType as TypeDateTimeType;
@@ -21,7 +20,9 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('pseudo')
             ->add('country')
-            ->add('birthAt')
+            ->add('birthAt', TypeDateTimeType::class, [
+                'widget' => 'single_text',
+            ])
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -30,9 +31,9 @@ class RegistrationFormType extends AbstractType
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
+                'label' => 'J\'accepte les conditions générales.',
             ])
             ->add('plainPassword', PasswordType::class, [
-
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -42,10 +43,18 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('consentRGPD', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez consentir au traitement de vos données personnelles.',
+                    ]),
+                ],
+                'label' => 'Je consens au traitement de mes données personnelles conformément à la politique de confidentialité.',
             ]);
     }
 
