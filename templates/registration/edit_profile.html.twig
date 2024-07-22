@@ -13,7 +13,7 @@
         <h2>Modifier mon profil
         <img src="{{ asset('images/mon-logo/logo.png') }}" class="img-fluid logo" alt="img logo"></h2>
     </div>
-    <div class="container">
+    <div class="container form-registration">
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
         {% endfor %}

@@ -14,7 +14,7 @@
         <img src="{{ asset('images/mon-logo/logo.png') }}" class="logo" alt="logo mon atelier garage">
     </h2>
 </div>
-    <div class="container-1">
+    <div class="container-1 form-registration">
         <form method="post" class="input-box">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
