@@ -9,10 +9,12 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <h2 class="logo-container">Connexion
+<div class="logo-container">
+    <h2>Connexion
         <img src="{{ asset('images/mon-logo/logo.png') }}" class="logo" alt="logo mon atelier garage">
     </h2>
-    <div class="d-flex justify-content-center align-items-center justify-content-center">
+</div>
+    <div class="container-1">
         <form method="post" class="input-box">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -27,13 +29,15 @@
             <i class='bx bxs-user'></i>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
             
-            <label for="inputPassword">Mot de passe</label>
+            <label for="inputPassword" class="mt-4">Mot de passe</label>
             <i class='bx bxs-lock-alt'></i>
             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <button class="btn-connexion" type="submit">Valider</button>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Valider</button>
+            </div>
         </form>
     </div>
 {% endblock %}
