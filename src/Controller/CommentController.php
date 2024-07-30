@@ -35,7 +35,7 @@ class CommentController extends AbstractController
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $newFile->guessExtension();
                 try {
                     $newFile->move(
-                        $this->getParameter('forum_directory'), // Assurez-vous que ce paramètre est bien défini dans config/services.yaml
+                        $this->getParameter('forum_directory'), // Je m'assure que ce paramètre est bien défini dans config/services.yaml
                         $newFilename
                     );
                     // Associez le fichier à l'utilisateur

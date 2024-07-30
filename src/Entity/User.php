@@ -49,7 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $birthAt = null;
 
-
     #[ORM\Column(nullable:true)]
     private ?\DateTimeImmutable $createdAt = null;
 

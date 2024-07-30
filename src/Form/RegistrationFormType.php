@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType as TypeDateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -55,6 +56,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
                 'label' => 'Je consens au traitement de mes données personnelles conformément à la politique de confidentialité.',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'S\'enregistrer',
+                'attr' => ['class' => 'btn btn-primary'],
             ]);
     }
 

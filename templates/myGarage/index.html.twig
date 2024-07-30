@@ -31,40 +31,36 @@
 		</div>
 	</section>
 	<section id="entretien">
-		<h2>Entretien</h2>
-		<div class="mes-entretiens container">
+  <h2>Entretien</h2>
+  <div class="mes-entretiens container">
+    <button class="custom-button-maintenance" type="button" onclick="openPopup()">Ajouter Maintenance</button>
 
-			<button class="custom-button-maintenance " type="button" onclick="openPopup()">Ajouter Maintenance</button>
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <form action="{{ path('add_maintenance', {'vehicleId': vehicule.id}) }}" method="post">
+          <textarea class="texte-pop" name="description" placeholder="Entrez votre commentaire ici"></textarea>
+          <button type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
 
-{# cela permet d'ouvrir une popup pour créer une maintenance #}
-			<div id="popup" class="popup">
-				<div class="popup-content">
-					<span class="close" onclick="closePopup()">&times;</span>
-					<form action="{{ path('add_maintenance', {'vehicleId': vehicule.id}) }}" method="post">
-						<textarea class="texte-pop" name="description" placeholder="Entrez votre commentaire ici"></textarea>
-						<button type="submit">Envoyer</button>
-					</form>
-				</div>
-			</div>
-
-			{% for maintenance in vehicule.getMaintenance %}
-				<div class="d-flex align-items-center gap-2">
-					<p class="mb-3 mr-1">{{ maintenance.createdAt|date('d-m-Y') }}:
-						{{ maintenance.maintenance }}
-					</p>
-					<form action="{{ path('delete_maintenance', {'id': maintenance.id}) }}" method="post">
-						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ maintenance.id) }}">
-						<button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
-					</form>
-				</div>
-			{% endfor %}
-		</div>
-		<div class="next-vehicule d-flex justify-content-center gap-5">
-			<a href="{{ path('app_my_garage', {'id': prevId}) }}" class="custom-button-maintenance-plus">Précédent</a>
-			<a href="{{ path('app_my_garage', {'id': nextId}) }}" class="custom-button-maintenance-plus">Suivant</a>
-		</div>
-	</section>
+    {% for maintenance in vehicule.getMaintenance %}
+      <div class="d-flex align-items-center gap-2">
+        <p class="mb-3 mr-1">{{ maintenance.createdAt|date('d-m-Y') }}: {{ maintenance.maintenance }}</p>
+        <form action="{{ path('delete_maintenance', {'id': maintenance.id}) }}" method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ maintenance.id) }}">
+          <button class="custom-button-supprimer mb-3 d-flex justify-content-center align-items-center p-0" type="submit">Supprimer</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="next-vehicule d-flex justify-content-center gap-5">
+    <a href="{{ path('app_my_garage', {'id': prevId}) }}" class="custom-button-maintenance-plus">Précédent</a>
+    <a href="{{ path('app_my_garage', {'id': nextId}) }}" class="custom-button-maintenance-plus">Suivant</a>
+  </div>
 </section>
+
 {% block javascripts %}
 	<script src="{{asset('assets/js/pop-up.js')}}"></script>
 {% endblock %}{% endblock %}
